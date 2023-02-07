@@ -1,0 +1,234 @@
+HTTP Request 
+> HTTP request is a message sent from client side to server side to request some information or perform action.
+> Express allow you to define route handlers for diferent HTTP methods (such as GET, POST, PUT, DELETE)
+
+> CRUD
+> get -- Read
+> post -- Create
+> put -- Update
+> delete -- delete
+
+Ex for "get" request
+    let express = require("express");
+    let app = express()
+
+    app.get("/",function(req,res){
+        res.send("Server Started..");
+    })
+
+    app.listen(3000);
+
+
+What is MongoDB?
+MongoDB is a cross platform, document-oriented, NOSQL database.
+MongoDB use disributed architecture.
+mondoDB is Open Sourse Database Management system
+it store data in BSON (Binary JSON) formate.
+
+
+setup local MongoDB
+> Install MongoDB (download cummunity server)
+> create "data" folder in c drive.
+> Inside "data" folder create "db" folder
+> Open First cmd
+  -> tyoe a command : "mongod"
+  -> this will start the mongoDB server
+  -> MongoDB server is a proccess that manage the strage and retrivals of data.
+
+> Open Second cmd
+  -> type a command : "mongo"
+  -> this wil start mongoDB Client
+  -> MongoDB client is a process that connect to a mondoDB server and send rewuest to it.
+
+
+
+
+mongoDb is nosql database
+[
+  {
+    _id : 1,
+    name : "Vandana"
+  },
+  {
+    _id:2,
+    name:"Student2",
+    age: 20
+  }
+]
+
+
+SQL    --   NOSQL
+database    database
+table       collection
+row         document
+select      find
+insert      insert
+delete      delete
+update      update
+
+
+commands 
+1. to check all database
+   "show dbs"
+
+2. Go inside particular database or create new database
+   "use database_name"
+
+3. To check current database
+   "db"
+
+4. To see all collection
+   "show collections"
+
+5. To find all data
+   "db.collection_name.find()
+
+6. CRUD -- Create, Read, Update, delete
+ 
+   1. Create Operation
+      -> Add New Document to collection
+      -> if collection does't exist, create new collection and then insert data into it.
+      -> you can enter single and multiple documents
+
+      1. Single Document
+         "db.collection.insertOne()
+          ex : db.studentData.insertOne({
+                ... _id : 1,
+                ... name : "Vandana"
+                ... })
+
+      2. Multiple Document
+         "db.collection.insertMany()
+         ex: db.studentData.insertMany( 
+          [
+            { _id:2,
+              name : "Rohit",
+              age : 20 
+            },
+            { 
+              name : "Kajal",
+              age : 30 
+            }
+          ])
+
+
+Read Operation
+
+1. to Read al document from a particular collection
+  "db.collection.find()"
+
+2. To Read a specific data
+   "db.collection.find({name : "vandana"})"
+  ex : db.studentData.find({name : "Vandana"})
+  ex : db.studentData.find({age : {$gte : 18} })
+
+
+Update Document
+1. db.collection_name.updateOne()
+   or 
+   db.collection_name.update()
+
+
+2. db.collection_name.updateMany()
+   ex : 
+   db.studentData.updateMany(
+... {name : "Arpit Chouhan"},
+... {$set : {name : "Vandana"}}
+... )
+
+3. Replace 
+   "db.collection.replaceOne()"
+   ex : db.studentData.replaceOne( {name : "Kajal"}, {name : "Arohi", age : 20, location : "Mumbai"})
+
+
+
+Delete Document
+1. delete all document
+   "db.collection_name.deleteMany({})"
+
+2. Delete all document match specific condition
+   "db.collection_name.deleteMany({name : "Vandana"})
+
+3. Delete One document which match this condition
+  "db.collection_name.deleteOne({name : "Vandana"})
+
+
+
+Connectivity between Node.js and MongoDB
+> mongodb  --> npm i mongodb
+> use MongoClient
+
+
+--- You can Pass parameters in the url by appending them to the end of the url as query string.
+url/restro?state_id
+
+Home page
+1. List of City
+   http://localhost:4000/location
+
+2. List of restro
+   http://localhost:4000/restro
+
+3. List of Restro wrt state_id
+   http://localhost:4000/restro?state_id=2
+
+4. QuickSearch Data
+   http://localhost:4000/menu
+
+
+Listing Page
+1. restro wrt mealtype
+   http://localhost:4000/restro?mealtype=1
+
+
+///////  Single Restro Page
+1. restro detail
+   http://localhost:4000/details/1
+
+2. Menu wrt Restro
+   http://localhost:4000/menu/2
+
+
+///////  Filters 
+1. filter restro wrt cuisine and mealtype
+   http://localhost:4000/filter/2?cuisine=3 
+
+2. filter using hcost and lcost 
+   http://localhost:4000/filter/1?lcost=200&hcost=500
+
+3. cost filter + cuisine filter 
+   http://localhost:4000/filter/1?lcost=200&hcost=500&cuisine=1 
+
+4. sort filter 
+   1. low to high
+   http://localhost:4000/filter/1?lcost=200&hcost=500&cuisineId=1&sort=1
+
+   2. high to low 
+   http://localhost:4000/filter/1?lcost=200&hcost=500&cuisineId=1&sort=1
+
+
+////// pagination on this page 
+   1. http://localhost:4000/filter/1?skip=2&limit=2
+   2. http://localhost:4000/filter/1?lcost=200&hcost=500&cuisineId=1&sort=1&skip=2&limit=2
+
+
+////// List of all orders
+   http://localhost:4000/orders
+   http://localhost:4000/orders?email="leosaini5959@gmail.com"
+
+
+
+////// Place order 
+   1. body-parsor 
+   Using body-parser allows you to access req.body from within routes and use that data.
+
+   2. cors 
+   CORS (Cross-Origin Resource Sharing) is used in Node.js to allow communication between a server and client from different origins. This is necessary because of the same-origin policy, which restricts a web page from making requests to a different domain than the one that served the web page.
+
+   By using CORS, a server can specify which origins are allowed to access its resources, making it possible to securely share resources with other domains. This allows for a more flexible and interoperable web, as different websites can make requests to APIs hosted on different domains.
+
+   3. app.use(bp.json()) looks at requests where the Content-Type: application/json header is present and transforms the text-based JSON input into JS-accessible variables under req.body. app.use(bp.urlencoded({extended: true}) does the same for URL-encoded requests. the extended: true precises that the req.body object will contain values of any type instead of just strings.
+
+
+///// add item in cart 
+   1. http://localhost:4000/cart/leosaini5959@gmail.com/1
